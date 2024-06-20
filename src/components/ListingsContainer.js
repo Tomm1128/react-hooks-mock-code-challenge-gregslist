@@ -6,10 +6,7 @@ function ListingsContainer({ listings, removeListing }) {
     return (
       <ListingCard
         key={listing.id}
-        id={listing.id}
-        description={listing.description}
-        image={listing.image}
-        location={listing.location}
+        listing={listing}
         removeListing={removeListing}
       />
     )

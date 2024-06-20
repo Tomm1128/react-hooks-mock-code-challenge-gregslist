@@ -1,8 +1,9 @@
 import React, { useState } from "react"
 import { deleteListing } from "../utils/fetchers"
 
-function ListingCard({ id, description, image, location, removeListing }) {
+function ListingCard({ listing, removeListing }) {
   const [isFavorite, setFavorite] = useState(false)
+  const { id, description, image, location } = listing
 
   const handleFavorite = () => {
     setFavorite(!isFavorite)
