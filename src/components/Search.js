@@ -1,9 +1,9 @@
-import React from "react";
+import React from "react"
 
-function Search() {
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log("submitted");
+function Search({ searchInput, updateSearch }) {
+  function handleSubmit(event) {
+    event.preventDefault()
+    updateSearch(event.target.children[0].value)
   }
 
   return (
@@ -12,12 +12,11 @@ function Search() {
         type="text"
         id="search"
         placeholder="search free stuff"
-        value={""}
-        onChange={(e) => console.log(e.target.value)}
+        value={searchInput}
       />
       <button type="submit">🔍</button>
     </form>
-  );
+  )
 }
 
-export default Search;
+export default Search
