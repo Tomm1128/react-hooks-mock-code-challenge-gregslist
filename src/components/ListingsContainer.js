@@ -2,7 +2,6 @@ import React from "react"
 import ListingCard from "./ListingCard"
 
 function ListingsContainer({ listings }) {
-  console.log(listings)
   const listingCards = listings.map((listing) => {
     return (
       <ListingCard
