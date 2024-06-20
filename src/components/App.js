@@ -6,6 +6,7 @@ import { getListing } from "../utils/fetchers"
 function App() {
   const [listings, setListings] = useState([])
   const [searched, setSearched] = useState("")
+  const [sort, setSort] = useState("asc")
 
   useEffect(() => {
     getListing().then((data) => setListings(data))
@@ -19,7 +20,15 @@ function App() {
     setSearched(newSearch)
   }
 
-  const filteredListings = listings.filter((listing) => {
+  const sortListing = listings.toSorted((listing, nextListing) => {
+    if (sort === "asc") {
+      return listing.location < nextListing.location ? -1 : 1
+    } else {
+      return listing.location > nextListing.location ? -1 : 1
+    }
+  })
+
+  const filteredListings = sortListing.filter((listing) => {
     if (searched === "") {
       return true
     } else {
@@ -29,7 +38,12 @@ function App() {
 
   return (
     <div className="app">
-      <Header searchedInput={searched} updateSearch={updateSearch} />
+      <Header
+        searchedInput={searched}
+        updateSearch={updateSearch}
+        sort={sort}
+        setSort={setSort}
+      />
       <ListingsContainer
         listings={filteredListings}
         removeListing={removeListing}
