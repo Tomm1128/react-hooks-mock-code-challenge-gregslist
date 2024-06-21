@@ -1,14 +1,57 @@
-import React from "react";
-import Header from "./Header";
-import ListingsContainer from "./ListingsContainer";
+import React, { useState, useEffect } from "react"
+import Header from "./Header"
+import ListingsContainer from "./ListingsContainer"
+import { getListing } from "../utils/fetchers"
+import ListingForm from "./ListingForm"
 
 function App() {
+  const [listings, setListings] = useState([])
+  const [searched, setSearched] = useState("")
+  const [sort, setSort] = useState("asc")
+
+  useEffect(() => {
+    getListing().then((data) => setListings(data))
+  }, [])
+
+  const removeListing = (id) => {
+    setListings(listings.filter((listing) => listing.id !== id))
+  }
+
+  const updateListings = (newListing) => {
+    setListings([...listings, newListing])
+  }
+
+  const sortListing = listings.toSorted((listing, nextListing) => {
+    if (sort === "asc") {
+      return listing.location < nextListing.location ? -1 : 1
+    } else {
+      return listing.location > nextListing.location ? -1 : 1
+    }
+  })
+
+  const filteredListings = sortListing.filter((listing) => {
+    if (searched === "") {
+      return true
+    } else {
+      return listing.description.toLowerCase().includes(searched)
+    }
+  })
+
   return (
     <div className="app">
-      <Header />
-      <ListingsContainer />
+      <Header
+        searchedInput={searched}
+        updateSearch={setSearched}
+        sort={sort}
+        setSort={setSort}
+      />
+      <ListingForm updateListings={updateListings} />
+      <ListingsContainer
+        listings={filteredListings}
+        removeListing={removeListing}
+      />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

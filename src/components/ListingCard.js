@@ -1,24 +1,45 @@
-import React from "react";
+import React, { useState } from "react"
+import { deleteListing } from "../utils/fetchers"
 
-function ListingCard() {
+function ListingCard({ listing, removeListing }) {
+  const [isFavorite, setFavorite] = useState(false)
+  const { id, description, image, location } = listing
+
+  const handleFavorite = () => {
+    setFavorite(!isFavorite)
+  }
+
+  const handleDelete = () => {
+    deleteListing(id).then(() => removeListing(id))
+  }
+
   return (
-    <li className="card">
+    <li className="card" id={id}>
       <div className="image">
         <span className="price">$0</span>
-        <img src={"https://via.placeholder.com/300x300"} alt={"description"} />
+        <img src={image} alt={"description"} />
       </div>
       <div className="details">
-        {true ? (
-          <button className="emoji-button favorite active">★</button>
-        ) : (
-          <button className="emoji-button favorite">☆</button>
-        )}
-        <strong>{"description"}</strong>
-        <span> · {"location"}</span>
-        <button className="emoji-button delete">🗑</button>
+        {
+          <button
+            className={
+              isFavorite
+                ? "emoji-button favorite active"
+                : "emoji-button favorite"
+            }
+            onClick={handleFavorite}
+          >
+            {isFavorite ? "★" : "☆"}
+          </button>
+        }
+        <strong>{description}</strong>
+        <span> · {location}</span>
+        <button className="emoji-button delete" onClick={handleDelete}>
+          🗑
+        </button>
       </div>
     </li>
-  );
+  )
 }
 
-export default ListingCard;
+export default ListingCard
