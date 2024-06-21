@@ -4,9 +4,20 @@ const getListing = () => {
   return fetch(url).then((resp) => resp.json())
 }
 
+const createListing = (newListing) => {
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newListing),
+  }).then((resp) => resp.json())
+}
+
 const updateListing = (id) => {
   return fetch(url + id, {
-    method: "Patch",
+    method: "PATCH",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -19,7 +30,7 @@ const updateListing = (id) => {
 
 const deleteListing = (id) => {
   return fetch(url + id, {
-    method: "Delete",
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
@@ -28,4 +39,4 @@ const deleteListing = (id) => {
     .catch((error) => console.error("Error Deleting:", error))
 }
 
-export { getListing, updateListing, deleteListing }
+export { getListing, createListing, updateListing, deleteListing }

@@ -17,8 +17,8 @@ function App() {
     setListings(listings.filter((listing) => listing.id !== id))
   }
 
-  const updateSearch = (newSearch) => {
-    setSearched(newSearch)
+  const updateListings = (newListing) => {
+    setListings([...listings, newListing])
   }
 
   const sortListing = listings.toSorted((listing, nextListing) => {
@@ -41,11 +41,11 @@ function App() {
     <div className="app">
       <Header
         searchedInput={searched}
-        updateSearch={updateSearch}
+        updateSearch={setSearched}
         sort={sort}
         setSort={setSort}
       />
-      <ListingForm />
+      <ListingForm updateListings={updateListings} />
       <ListingsContainer
         listings={filteredListings}
         removeListing={removeListing}

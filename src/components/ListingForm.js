@@ -1,6 +1,7 @@
 import React, { useState } from "react"
+import { createListing } from "../utils/fetchers"
 
-function ListingForm() {
+function ListingForm({ updateListings }) {
   const [isHidden, setHidden] = useState(true)
   const [formData, setFormData] = useState({
     description: "",
@@ -10,7 +11,7 @@ function ListingForm() {
 
   function handleSubmit(event) {
     event.preventDefault()
-    console.log(formData)
+    createListing(formData).then((newListing) => updateListings(newListing))
   }
 
   const updateFormData = (event) => {
